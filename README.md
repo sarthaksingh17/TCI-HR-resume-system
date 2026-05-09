@@ -13,6 +13,7 @@ An AI-powered candidate evaluation pipeline built with **LangGraph**. Upload a J
 ## Table of Contents
 
 - [What This Does](#what-this-does)
+- [Screenshots](#screenshots)
 - [Architecture](#architecture)
 - [Node Reference](#node-reference)
 - [Scoring Rubric](#scoring-rubric)
@@ -24,6 +25,7 @@ An AI-powered candidate evaluation pipeline built with **LangGraph**. Upload a J
 - [Sample Data](#sample-data)
 - [Environment Variables](#environment-variables)
 - [Tech Stack](#tech-stack)
+- [Beyond the Assignment](#beyond-the-assignment)
 
 ---
 
@@ -37,6 +39,33 @@ HR teams screen hundreds of resumes per role — leading to fatigue, inconsisten
 4. Runs an automated **bias audit** to flag scoring anomalies
 5. Generates a ranked HTML + JSON report with per-candidate skill gap analysis
 6. Allows HR to **override any score** with a reason — every change logged to an audit trail
+
+---
+
+## Screenshots
+
+**Landing Page — Upload JD and Resumes**
+
+<img width="1888" height="946" alt="Screenshot 2026-05-09 225541" src="https://github.com/user-attachments/assets/fcd73fdf-ae10-44f0-8ada-e50dba25c3c3" />
+
+
+**Pipeline Running — Files Uploaded and Ready**
+
+***added TCI JD and my own Resume for verification***
+
+<img width="336" height="975" alt="Screenshot 2026-05-09 225759" src="https://github.com/user-attachments/assets/4329505f-ede8-4b38-a2ae-f215bd865ff2" />
+
+
+**Results Dashboard — Ranked Candidates with HITL Override**
+
+
+<img width="1915" height="956" alt="Screenshot 2026-05-09 225837" src="https://github.com/user-attachments/assets/4707939f-1a27-4693-bc59-8d9b7a3d9ce5" />
+
+
+**Generated HTML Report — Full Scoring Breakdown**
+
+<img width="685" height="879" alt="Screenshot 2026-05-09 225858" src="https://github.com/user-attachments/assets/e6ea3c7c-a1d9-4417-848c-1f0d36b2d211" />
+
 
 ---
 
@@ -278,6 +307,40 @@ APP_PASSWORD=your_password     # enables password gate on Streamlit UI
 | **Report Generation** | Jinja2 HTML + JSON |
 | **UI** | Streamlit |
 | **Audit Logging** | SQLite |
+
+---
+
+## Beyond the Assignment
+
+Three engineering additions built on top of the core assignment requirements.
+
+### Async Parallel Processing
+
+The assignment did not require parallel execution. By default, scoring 10 resumes sequentially with LLM calls takes ~30 seconds.
+
+Nodes 2A and 2B use `async def` with `asyncio.to_thread` and `asyncio.gather` so every candidate is parsed simultaneously. The graph is invoked via `ainvoke` — LangGraph handles async nodes natively.
+
+**Result:** 10 resumes process in the time it previously took to process 1.
+
+---
+
+### Pydantic Structured Output on Every LLM Call
+
+The assignment required a scoring rubric output but did not specify how LLM responses should be validated.
+
+Every single LLM call in this pipeline uses `with_structured_output()` with a Pydantic model. The LLM cannot return a vague or malformed response — if schema validation fails, the node retries automatically.
+
+**Result:** Zero string parsing anywhere in the codebase. Hallucinated or incomplete scores are caught before they reach the report.
+
+---
+
+### Bias Audit Node
+
+The assignment brief mentioned unconscious bias as the core business problem but did not require any automated bias detection.
+
+The Rank node runs three checks after every scoring batch — profile similarity discrepancy, keyword stuffing detection, and scoring variance. Any flagged candidates appear in the Bias Audit Summary section of the report with the specific flag reason.
+
+**Result:** HR sees not just who ranked highest, but whether the scoring itself can be trusted.
 
 ---
 
