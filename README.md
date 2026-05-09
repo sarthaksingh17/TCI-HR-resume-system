@@ -46,25 +46,25 @@ HR teams screen hundreds of resumes per role — leading to fatigue, inconsisten
 
 **Landing Page — Upload JD and Resumes**
 
-<img width="1888" height="946" alt="Screenshot 2026-05-09 225541" src="https://github.com/user-attachments/assets/fcd73fdf-ae10-44f0-8ada-e50dba25c3c3" />
+<img width="1888" height="946" alt="Screenshot 2026-05-09 225541" src="assets/landing_page.png" />
 
 
-**Pipeline Running — Files Uploaded and Ready**
+**Files Uploaded and Ready**
 
 ***added TCI JD and my own Resume for verification***
 
-<img width="336" height="975" alt="Screenshot 2026-05-09 225759" src="https://github.com/user-attachments/assets/4329505f-ede8-4b38-a2ae-f215bd865ff2" />
+<img width="336" height="975" alt="Screenshot 2026-05-09 225759" src="assets/fileUp.png" />
 
 
 **Results Dashboard — Ranked Candidates with HITL Override**
 
 
-<img width="1915" height="956" alt="Screenshot 2026-05-09 225837" src="https://github.com/user-attachments/assets/4707939f-1a27-4693-bc59-8d9b7a3d9ce5" />
+<img width="1915" height="956" alt="Screenshot 2026-05-09 225837" src="assets/results.png" />
 
 
 **Generated HTML Report — Full Scoring Breakdown**
 
-<img width="685" height="879" alt="Screenshot 2026-05-09 225858" src="https://github.com/user-attachments/assets/e6ea3c7c-a1d9-4417-848c-1f0d36b2d211" />
+<img width="685" height="879" alt="Screenshot 2026-05-09 225858" src="assets/report.png" />
 
 
 ---
