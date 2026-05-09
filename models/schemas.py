@@ -194,6 +194,7 @@ class GraphState(TypedDict, total=False):
     resume_profiles: list  # list of serialized CandidateProfile
     linkedin_profiles: list
     candidate_profiles: list  # merged/final profiles
+    parse_failures: list  # filenames that failed to parse
 
     # After scoring
     rubric_scores: list  # list of serialized RubricScore

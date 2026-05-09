@@ -3,7 +3,6 @@ LLM client utility — wraps Groq API via langchain-groq for LangGraph integrati
 Uses llama-3.3-70b-versatile model with retry logic for rate limits.
 """
 
-import asyncio
 import os
 import time
 
@@ -35,49 +34,21 @@ def get_llm() -> ChatGroq:
 
 
 def invoke_with_retry(runnable, prompt, max_retries=3, wait_seconds=2):
-    """Invoke a LangChain runnable with explicit retry on rate limits."""
+    """Invoke a LangChain runnable with explicit retry on rate limits and parse errors."""
     for attempt in range(max_retries):
         try:
             return runnable.invoke(prompt)
         except Exception as e:
             err = str(e).lower()
-            is_rate_limit = "rate_limit" in err or "429" in err or "too many" in err
-            if is_rate_limit and attempt < max_retries - 1:
-                delay = wait_seconds * (attempt + 1)
-                print(f"[Retry] Rate limit hit, waiting {delay}s (attempt {attempt+1}/{max_retries})")
+            is_retryable = (
+                "rate_limit" in err or "429" in err or "too many" in err
+                or "output_parser" in err or "validation" in err
+                or "json" in err or "parse" in err
+                or "server" in err or "500" in err or "503" in err
+            )
+            if is_retryable and attempt < max_retries - 1:
+                delay = wait_seconds * (2 ** attempt)  # exponential backoff
+                print(f"[Retry] Error: {type(e).__name__}, waiting {delay}s (attempt {attempt+1}/{max_retries})")
                 time.sleep(delay)
                 continue
             raise
-
-
-async def ainvoke_with_retry(runnable, prompt, max_retries=3, wait_seconds=2):
-    """Async invoke with retry on rate limits."""
-    for attempt in range(max_retries):
-        try:
-            return await runnable.ainvoke(prompt)
-        except Exception as e:
-            err = str(e).lower()
-            is_rate_limit = "rate_limit" in err or "429" in err or "too many" in err
-            if is_rate_limit and attempt < max_retries - 1:
-                delay = wait_seconds * (attempt + 1)
-                print(f"[Retry] Rate limit hit, waiting {delay}s (attempt {attempt+1}/{max_retries})")
-                await asyncio.sleep(delay)
-                continue
-            raise
-
-
-def run_async_safe(coro):
-    """Run async coroutine from sync code using run_coroutine_threadsafe.
-    Creates a dedicated event loop thread to avoid conflicts with Streamlit's loop.
-    """
-    import threading
-
-    loop = asyncio.new_event_loop()
-    thread = threading.Thread(target=loop.run_forever, daemon=True)
-    thread.start()
-    try:
-        future = asyncio.run_coroutine_threadsafe(coro, loop)
-        return future.result()
-    finally:
-        loop.call_soon_threadsafe(loop.stop)
-        thread.join(timeout=5)

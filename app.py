@@ -157,6 +157,13 @@ def _run_pipeline(jd_file, resume_files, linkedin_files):
             return
 
     st.success("✅ Pipeline completed successfully!")
+
+    # Warn about any resumes that failed to parse
+    parse_failures = result.get("parse_failures", [])
+    if parse_failures:
+        for fname in parse_failures:
+            st.warning(f"⚠️ Resume **{fname}** could not be parsed by the AI and was skipped. Try re-uploading it.")
+
     _display_results()
 
 

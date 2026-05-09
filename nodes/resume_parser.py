@@ -55,8 +55,8 @@ async def _parse_single_resume(structured_llm, filename: str, text: str) -> dict
 
 
 async def _parse_all_resumes(structured_llm, items: list[tuple[str, str]]) -> list[dict]:
-    """Parse all resumes in parallel using asyncio.gather()."""
-    sem = asyncio.Semaphore(3)  # limit concurrent LLM calls to avoid rate limits
+    """Parse all resumes in parallel using asyncio.gather(), with sequential retry for failures."""
+    sem = asyncio.Semaphore(2)  # limit to 2 concurrent LLM calls to avoid Groq rate limits
 
     async def _guarded(filename, text):
         async with sem:
@@ -66,11 +66,31 @@ async def _parse_all_resumes(structured_llm, items: list[tuple[str, str]]) -> li
     results = await asyncio.gather(*tasks, return_exceptions=True)
 
     profiles = []
-    for r in results:
+    failed_items = []  # track failures for sequential retry
+    for i, r in enumerate(results):
         if isinstance(r, Exception):
-            print(f"[Resume Parser] Async error: {r}")
+            print(f"[Resume Parser] Async error for {items[i][0]}: {r}")
+            failed_items.append(items[i])
         elif r is not None:
             profiles.append(r)
+        else:
+            print(f"[Resume Parser] Returned None for {items[i][0]}")
+            failed_items.append(items[i])
+
+    # Sequential retry for any resumes that failed in parallel
+    for filename, text in failed_items:
+        print(f"[Resume Parser] Retrying {filename} sequentially...")
+        await asyncio.sleep(3)  # wait before retry to respect rate limits
+        try:
+            result = await _parse_single_resume(structured_llm, filename, text)
+            if result is not None:
+                profiles.append(result)
+                print(f"[Resume Parser] Retry succeeded for {filename}")
+            else:
+                print(f"[Resume Parser] Retry returned None for {filename}")
+        except Exception as e:
+            print(f"[Resume Parser] Retry also failed for {filename}: {e}")
+
     return profiles
 
 
@@ -79,11 +99,11 @@ def parse_resumes_node(state: GraphState) -> dict:
     Parse all resume files into structured CandidateProfile objects (async parallel).
 
     Input state keys: resume_texts
-    Output state keys: resume_profiles
+    Output state keys: resume_profiles, parse_failures
     """
     resume_texts: dict = state.get("resume_texts", {})
     if not resume_texts:
-        return {"resume_profiles": []}
+        return {"resume_profiles": [], "parse_failures": []}
 
     llm = get_llm()
     structured_llm = llm.with_structured_output(CandidateProfile)
@@ -91,4 +111,12 @@ def parse_resumes_node(state: GraphState) -> dict:
     items = list(resume_texts.items())
     profiles = run_async_safe(_parse_all_resumes(structured_llm, items))
 
-    return {"resume_profiles": profiles}
+    # Identify which resumes failed to parse
+    parsed_filenames = {p.get("file_name") for p in profiles if p.get("file_name")}
+    parse_failures = [fn for fn, _ in items if fn not in parsed_filenames]
+
+    if parse_failures:
+        print(f"[Resume Parser] WARNING: {len(parse_failures)} resume(s) could not be parsed: {parse_failures}")
+
+    print(f"[Resume Parser] Successfully parsed {len(profiles)}/{len(items)} resume(s)")
+    return {"resume_profiles": profiles, "parse_failures": parse_failures}

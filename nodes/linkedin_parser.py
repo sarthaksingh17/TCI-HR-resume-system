@@ -1,16 +1,16 @@
 """
 Node 2B: LinkedIn Parser Node
 Parses exported LinkedIn JSON files into structured CandidateProfile objects.
-Uses async parallel processing via asyncio.gather().
+Uses sequential processing with retry to ensure all profiles are parsed reliably.
 """
 
 from __future__ import annotations
 
-import asyncio
 import json
+import time
 
 from models.schemas import CandidateProfile, GraphState
-from utils.llm_client import ainvoke_with_retry, get_llm, run_async_safe
+from utils.llm_client import get_llm, invoke_with_retry
 from utils.sanitiser import mask_pii, sanitise_text
 
 
@@ -34,8 +34,8 @@ Extract the following fields:
 Be thorough and extract all available information from the LinkedIn data."""
 
 
-async def _parse_single_linkedin(structured_llm, filename: str, json_string: str) -> dict | None:
-    """Parse a single LinkedIn JSON file asynchronously."""
+def _parse_single_linkedin(structured_llm, filename: str, json_string: str) -> dict | None:
+    """Parse a single LinkedIn JSON file synchronously with retry."""
     try:
         json_obj = json.loads(json_string) if isinstance(json_string, str) else json_string
         formatted = json.dumps(json_obj, indent=2)
@@ -45,9 +45,11 @@ async def _parse_single_linkedin(structured_llm, filename: str, json_string: str
 
     sanitised = sanitise_text(formatted, source=f"linkedin:{filename}")
     try:
-        profile: CandidateProfile = await ainvoke_with_retry(
+        profile: CandidateProfile = invoke_with_retry(
             structured_llm,
             LINKEDIN_PARSE_PROMPT.format(linkedin_json=sanitised),
+            max_retries=5,
+            wait_seconds=3,
         )
         profile.source = "linkedin"
         profile.file_name = filename
@@ -58,29 +60,10 @@ async def _parse_single_linkedin(structured_llm, filename: str, json_string: str
         return None
 
 
-async def _parse_all_linkedin(structured_llm, items: list[tuple[str, str]]) -> list[dict]:
-    """Parse all LinkedIn profiles in parallel using asyncio.gather()."""
-    sem = asyncio.Semaphore(3)
-
-    async def _guarded(filename, json_str):
-        async with sem:
-            return await _parse_single_linkedin(structured_llm, filename, json_str)
-
-    tasks = [_guarded(fn, js) for fn, js in items]
-    results = await asyncio.gather(*tasks, return_exceptions=True)
-
-    profiles = []
-    for r in results:
-        if isinstance(r, Exception):
-            print(f"[LinkedIn Parser] Async error: {r}")
-        elif r is not None:
-            profiles.append(r)
-    return profiles
-
-
 def parse_linkedin_node(state: GraphState) -> dict:
     """
-    Parse all LinkedIn JSON files into structured CandidateProfile objects (async parallel).
+    Parse all LinkedIn JSON files into structured CandidateProfile objects.
+    Processes sequentially with a delay between calls to avoid Groq rate limits.
 
     Input state keys: linkedin_data
     Output state keys: linkedin_profiles
@@ -94,6 +77,18 @@ def parse_linkedin_node(state: GraphState) -> dict:
     structured_llm = llm.with_structured_output(CandidateProfile)
 
     items = list(linkedin_data.items())
-    profiles = run_async_safe(_parse_all_linkedin(structured_llm, items))
+    profiles = []
 
+    for idx, (filename, json_str) in enumerate(items):
+        print(f"[LinkedIn Parser] Parsing profile {idx + 1}/{len(items)}: {filename}")
+        result = _parse_single_linkedin(structured_llm, filename, json_str)
+
+        if result is not None:
+            profiles.append(result)
+
+        # Add a small delay between calls to respect Groq rate limits
+        if idx < len(items) - 1:
+            time.sleep(1)
+
+    print(f"[LinkedIn Parser] Successfully parsed {len(profiles)}/{len(items)} profile(s)")
     return {"linkedin_profiles": profiles}
