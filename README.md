@@ -46,7 +46,7 @@ HR teams screen hundreds of resumes per role — leading to fatigue, inconsisten
 
 **Landing Page — Upload JD and Resumes**
 
-<img width="1888" height="946" alt="Screenshot 2026-05-09 225541" src="assets/landing_page.png" />
+<img width="1888" height="946" alt="Screenshot 2026-05-09 225541" src="assets/landingPage.png" />
 
 
 **Files Uploaded and Ready**
