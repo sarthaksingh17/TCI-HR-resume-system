@@ -1,0 +1,33 @@
+RAHUL KUMAR
+Email: rahul.kumar99@yahoo.com | Phone: +91-76543-21098
+
+PROFESSIONAL SUMMARY
+Recent computer science graduate with strong Java and Spring Boot skills. Completed internship in enterprise application development. Eager to learn and grow in software engineering.
+
+SKILLS
+Java, Spring Boot, Hibernate, MySQL, Maven, Git, HTML, CSS, JavaScript, Basic Python, JUnit, Servlet, JSP, Eclipse IDE, Postman
+
+WORK EXPERIENCE
+
+Software Engineering Intern — Infosys, Mysore
+January 2024 – June 2024 (6 months)
+- Developed Java Spring Boot microservices for internal HR management system
+- Wrote JUnit test cases for backend modules
+- Created MySQL database schemas and wrote stored procedures
+- Participated in daily standups and sprint planning
+
+EDUCATION
+B.Tech in Computer Science — VIT University, Vellore, 2024
+GPA: 7.2/10
+
+PROJECTS
+1. Online Bookstore (College Project)
+   E-commerce web application for buying books, built with Java, Spring Boot, and MySQL.
+   Technologies: Java, Spring Boot, MySQL, Thymeleaf, Bootstrap
+
+2. Student Grade Tracker
+   Simple CRUD application to manage student grades using Servlets and JSP.
+   Technologies: Java, Servlets, JSP, MySQL
+
+CERTIFICATIONS
+- Oracle Certified Associate, Java SE 8 Programmer (2023)

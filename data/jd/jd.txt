@@ -1,0 +1,47 @@
+Job Title: Mid-Level AI/ML Engineer
+Company: NeuralForge Labs (Series A AI Startup — Building LLM-powered developer tools)
+Location: Bangalore, India (Hybrid — 3 days in office)
+Employment Type: Full-time
+
+About Us:
+NeuralForge Labs is building the next generation of AI-powered developer productivity tools. Our flagship product uses large language models to help engineering teams write, review, and deploy code faster. We're a 30-person team backed by top-tier investors, and we're scaling fast.
+
+Role Overview:
+We're looking for a Mid-Level AI/ML Engineer to join our core AI team. You'll work on building and optimizing LLM pipelines, designing retrieval-augmented generation (RAG) systems, and shipping features that directly impact our product. This is a hands-on IC role — you'll write production code, not just notebooks.
+
+Required Skills:
+- Python (3+ years of production experience)
+- LangChain or LlamaIndex (hands-on experience building LLM applications)
+- FastAPI (building and deploying REST APIs)
+- Docker (containerizing ML workloads)
+- AWS (EC2, S3, Lambda, or equivalent cloud experience)
+- Experience with vector databases (Pinecone, Weaviate, ChromaDB, or FAISS)
+- Solid understanding of transformer architectures and prompt engineering
+- Git and CI/CD workflows
+
+Minimum Experience: 2-3 years in a software engineering or ML engineering role.
+
+Education: Bachelor's or Master's in Computer Science, AI/ML, or related field.
+
+Key Responsibilities:
+- Design, build, and maintain LLM-powered features end-to-end
+- Build and optimize RAG pipelines for code understanding tasks
+- Evaluate and benchmark different LLM providers and fine-tuning strategies
+- Write clean, tested, production-ready Python code
+- Collaborate with product and frontend teams on feature specs
+- Set up monitoring and observability for ML systems in production
+- Participate in architecture discussions and code reviews
+
+Nice-to-Have Skills:
+- Experience with LangGraph or multi-agent frameworks
+- Fine-tuning open-source LLMs (LoRA, QLoRA)
+- Kubernetes for orchestrating ML workloads
+- Experience with Redis, PostgreSQL, or similar data stores
+- Contributions to open-source AI projects
+- Familiarity with MLOps tools (MLflow, Weights & Biases)
+
+What We Offer:
+- Competitive salary + meaningful equity
+- Work on cutting-edge LLM technology
+- Small team, high impact — your code ships to users every week
+- Learning budget and conference sponsorship

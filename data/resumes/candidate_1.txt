@@ -1,0 +1,52 @@
+PRIYA SHARMA
+Email: priya.sharma@outlook.com | Phone: +91-98765-43210
+LinkedIn: linkedin.com/in/priyasharma-ml | GitHub: github.com/priyasharma-ai
+
+PROFESSIONAL SUMMARY
+AI/ML Engineer with 3 years of experience building production LLM applications and machine learning pipelines. Passionate about retrieval-augmented generation (RAG) systems and developer tooling. Strong Python background with hands-on experience shipping LangChain-based products at scale.
+
+SKILLS
+Python, LangChain, LlamaIndex, FastAPI, Docker, AWS (EC2, S3, Lambda, SageMaker), ChromaDB, FAISS, Pinecone, PostgreSQL, Redis, Git, GitHub Actions, CI/CD, Transformers (HuggingFace), PyTorch, Prompt Engineering, REST APIs, Linux, Pandas, NumPy
+
+WORK EXPERIENCE
+
+AI/ML Engineer — IntelliBot AI, Bangalore
+January 2023 – Present (2 years 4 months)
+- Built a RAG-powered customer support chatbot using LangChain + ChromaDB, reducing ticket resolution time by 40%
+- Designed and deployed FastAPI microservices for LLM inference, handling 500+ requests/minute on AWS EC2
+- Implemented prompt engineering strategies that improved answer accuracy from 72% to 89%
+- Set up Docker-based CI/CD pipeline with GitHub Actions for automated model deployment
+- Evaluated and benchmarked GPT-4, Claude, and Llama-2 for cost/quality tradeoffs
+- Mentored 2 junior developers on LangChain best practices
+
+ML Engineer Intern — DataWorks Solutions, Pune
+June 2021 – December 2022 (1 year 6 months)
+- Developed text classification models using transformer architectures (BERT, RoBERTa)
+- Built data preprocessing pipelines using Pandas and NumPy for 500K+ document corpus
+- Deployed ML models as REST APIs using FastAPI and Docker
+- Contributed to internal vector search POC using FAISS
+
+EDUCATION
+M.Tech in Artificial Intelligence — Indian Institute of Technology (IIT) Hyderabad, 2021
+GPA: 8.9/10
+
+B.Tech in Computer Science — NIT Warangal, 2019
+GPA: 8.5/10
+
+PROJECTS
+1. CodeReview Agent
+   Built an LLM-powered code review assistant using LangChain + GPT-4 that analyzes pull requests, identifies bugs, and suggests improvements. Deployed on AWS Lambda with FastAPI backend.
+   Technologies: Python, LangChain, FastAPI, AWS Lambda, Docker, GitHub API
+
+2. Research Paper QA System
+   Developed a RAG system for querying academic papers. Used ChromaDB for vector storage and LangChain for retrieval chain orchestration. Achieved 85% answer relevance on benchmark dataset.
+   Technologies: Python, LangChain, ChromaDB, HuggingFace Transformers, Streamlit
+
+3. Sentiment Analysis Dashboard
+   End-to-end ML pipeline for social media sentiment analysis with real-time predictions and a Streamlit dashboard.
+   Technologies: Python, PyTorch, FastAPI, Docker, PostgreSQL, Streamlit
+
+CERTIFICATIONS
+- AWS Certified Machine Learning – Specialty (2023)
+- DeepLearning.AI LangChain for LLM Application Development (2023)
+- HuggingFace NLP Course (2022)

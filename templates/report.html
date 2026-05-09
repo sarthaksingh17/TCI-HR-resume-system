@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Shortlist Report — {{ jd.title }}</title>
+    <style>
+        :root {
+            --green: #22c55e;
+            --amber: #f59e0b;
+            --red: #ef4444;
+            --bg: #f9fafb;
+            --card-bg: #ffffff;
+            --text: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 40px 20px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        h1 { font-size: 1.8rem; margin-bottom: 4px; }
+        h2 { font-size: 1.3rem; margin: 24px 0 12px; border-bottom: 2px solid var(--border); padding-bottom: 6px; }
+        h3 { font-size: 1.1rem; margin-bottom: 8px; }
+        .meta { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+        .stats {
+            display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 20px;
+            flex: 1; min-width: 120px;
+            text-align: center;
+        }
+        .stat-card .number { font-size: 1.6rem; font-weight: 700; }
+        .stat-card .label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; }
+        .badge {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+        }
+        .badge-strong { background: var(--green); }
+        .badge-borderline { background: var(--amber); }
+        .badge-weak { background: var(--red); }
+        .candidate-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+        .candidate-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 12px;
+        }
+        .candidate-header h3 { margin: 0; }
+        .score-big {
+            font-size: 1.4rem; font-weight: 700;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 0.88rem;
+        }
+        th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: #f3f4f6; font-weight: 600; }
+        .skill-gaps, .bias-flags {
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+        .skill-gaps span { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; margin: 2px; display: inline-block; }
+        .bias-flag {
+            background: #fef2f2; border-left: 3px solid var(--red);
+            padding: 8px 12px; margin: 6px 0; border-radius: 0 6px 6px 0;
+            font-size: 0.85rem;
+        }
+        .override-entry {
+            background: #eff6ff; border-left: 3px solid #3b82f6;
+            padding: 8px 12px; margin: 6px 0; border-radius: 0 6px 6px 0;
+            font-size: 0.85rem;
+        }
+        .section-empty { color: var(--text-muted); font-style: italic; font-size: 0.9rem; }
+        @media print {
+            body { padding: 20px; }
+            .candidate-card { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <h1>HR Shortlist Report</h1>
+    <p class="meta">
+        <strong>Position:</strong> {{ jd.title }} &nbsp;|&nbsp;
+        <strong>Generated:</strong> {{ generated_at }}
+    </p>
+    <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 16px;">
+        <em>Scoring: Each dimension is scored 0–10 by the LLM. The weighted total (0–10) is equivalent to a 0–100% scale.
+        Tier thresholds: Strong ≥ 75% (7.5/10) | Borderline 50–74% (5.0–7.4/10) | Weak &lt; 50% (&lt;5.0/10).</em>
+    </p>
+
+    <div class="stats">
+        <div class="stat-card">
+            <div class="number">{{ total_candidates }}</div>
+            <div class="label">Total Candidates</div>
+        </div>
+        <div class="stat-card">
+            <div class="number" style="color: var(--green);">{{ strong_count }}</div>
+            <div class="label">Strong (Hire)</div>
+        </div>
+        <div class="stat-card">
+            <div class="number" style="color: var(--amber);">{{ borderline_count }}</div>
+            <div class="label">Borderline</div>
+        </div>
+        <div class="stat-card">
+            <div class="number" style="color: var(--red);">{{ weak_count }}</div>
+            <div class="label">Weak (No Hire)</div>
+        </div>
+    </div>
+
+    <h2>Required Skills</h2>
+    <p>{{ jd.required_skills | join(', ') }}</p>
+
+    {% if jd.preferred_skills %}
+    <h2>Preferred Skills</h2>
+    <p>{{ jd.preferred_skills | join(', ') }}</p>
+    {% endif %}
+
+    <h2>Ranked Candidates</h2>
+
+    {% for candidate in ranked_candidates %}
+    <div class="candidate-card">
+        <div class="candidate-header">
+            <h3>
+                #{{ loop.index }} — {{ candidate.candidate_name }}
+                {% if candidate.tier == "Strong" %}
+                    <span class="badge badge-strong">{{ candidate.tier }}</span>
+                {% elif candidate.tier == "Borderline" %}
+                    <span class="badge badge-borderline">{{ candidate.tier }}</span>
+                {% else %}
+                    <span class="badge badge-weak">{{ candidate.tier }}</span>
+                {% endif %}
+                <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: normal;">
+                    — {{ candidate.recommendation }}
+                </span>
+            </h3>
+            <div>
+                <span class="score-big">{{ candidate.weighted_total }}/10</span>
+                <span style="color: var(--text-muted); font-size: 0.8rem; display: block;">
+                    Similarity: {{ candidate.similarity_score }}
+                </span>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Dimension</th>
+                    <th>Score</th>
+                    <th>Weight</th>
+                    <th>Justification</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ds in candidate.dimension_scores %}
+                <tr>
+                    <td>{{ ds.dimension }}</td>
+                    <td><strong>{{ ds.score }}/10</strong></td>
+                    <td>{{ (ds.weight * 100) | int }}%</td>
+                    <td>{{ ds.justification }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if candidate.skill_gaps %}
+        <div class="skill-gaps">
+            <strong>Skill Gaps:</strong>
+            {% for gap in candidate.skill_gaps %}
+                <span>{{ gap }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if candidate.bias_flags %}
+        <div style="margin-top: 8px;">
+            <strong style="font-size: 0.85rem;">Bias Flags:</strong>
+            {% for flag in candidate.bias_flags %}
+                <div class="bias-flag">{{ flag }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    {% if bias_audit %}
+    <h2>Bias Audit Summary</h2>
+    {% for flag in bias_audit %}
+    <div class="bias-flag">
+        <strong>[{{ flag.severity | upper }}] {{ flag.flag_type }}:</strong> {{ flag.description }}
+        <br><em>Candidates: {{ flag.candidate_names | join(', ') }}</em>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h2>Bias Audit Summary</h2>
+    <p class="section-empty">No bias flags raised. ✓</p>
+    {% endif %}
+
+    {% if overrides %}
+    <h2>Override Audit Trail</h2>
+    {% for o in overrides %}
+    <div class="override-entry">
+        <strong>{{ o.candidate_name }}</strong> — {{ o.dimension }}:
+        {{ o.original_score }} → {{ o.new_score }}
+        <br><em>Reason:</em> {{ o.reason }}
+        <br><em>By:</em> {{ o.reviewer }} at {{ o.timestamp }}
+    </div>
+    {% endfor %}
+    {% else %}
+    <h2>Override Audit Trail</h2>
+    <p class="section-empty">No overrides applied.</p>
+    {% endif %}
+
+</body>
+</html>

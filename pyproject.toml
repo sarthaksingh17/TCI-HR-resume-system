@@ -1,0 +1,19 @@
+[project]
+name = "hr-resume-system"
+version = "1.0.0"
+description = "AI-powered HR Resume & LinkedIn Shortlisting Agent using LangGraph, Groq, and sentence-transformers"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "jinja2>=3.1.0",
+    "langchain>=0.3.0",
+    "langchain-groq>=0.2.0",
+    "langgraph>=0.2.0",
+    "numpy>=1.26.0",
+    "pdfplumber>=0.11.0",
+    "pydantic>=2.0.0",
+    "python-docx>=1.1.0",
+    "python-dotenv>=1.0.0",
+    "sentence-transformers>=3.0.0",
+    "streamlit>=1.38.0",
+]

@@ -1,0 +1,46 @@
+ARJUN MEHTA
+Email: arjun.mehta@gmail.com | Phone: +91-87654-32109
+
+PROFESSIONAL SUMMARY
+Backend developer with 3 years of experience building scalable web applications and APIs. Primarily worked with Python and Node.js. Looking to transition into AI/ML engineering. Self-taught in machine learning fundamentals through online courses.
+
+SKILLS
+Python, Node.js, Express.js, Django, REST APIs, PostgreSQL, MongoDB, Docker, Git, AWS (EC2, S3), Redis, Linux, HTML/CSS, JavaScript, SQL, Agile/Scrum
+
+WORK EXPERIENCE
+
+Backend Developer — CloudStack Technologies, Mumbai
+March 2022 – Present (2 years 2 months)
+- Built and maintained Django REST APIs for an e-commerce platform with 50K+ daily users
+- Implemented caching strategies with Redis, reducing API response times by 35%
+- Set up Docker-based deployment pipelines on AWS EC2
+- Wrote unit tests and integration tests achieving 80% code coverage
+- Participated in on-call rotation and incident response
+
+Junior Developer — WebCraft Solutions, Pune
+August 2020 – February 2022 (1 year 6 months)
+- Developed Node.js/Express backend services for client projects
+- Built REST APIs consumed by React and mobile frontends
+- Managed PostgreSQL databases with complex queries and migrations
+- Collaborated in agile sprints with 5-person development team
+
+EDUCATION
+B.Tech in Information Technology — Pune Institute of Technology, 2020
+GPA: 7.8/10
+
+PROJECTS
+1. Inventory Management API
+   Full REST API for warehouse inventory tracking with Django, PostgreSQL, and Redis caching.
+   Technologies: Python, Django, PostgreSQL, Redis, Docker
+
+2. Chat Application
+   Real-time chat application using Node.js, Socket.IO, and MongoDB.
+   Technologies: Node.js, Express, Socket.IO, MongoDB
+
+3. ML Basics Notebook (Personal Project)
+   Jupyter notebooks covering linear regression, classification, and basic NLP tasks. Completed as part of self-learning in ML.
+   Technologies: Python, Scikit-learn, Pandas, NLTK
+
+CERTIFICATIONS
+- AWS Certified Cloud Practitioner (2023)
+- Coursera Machine Learning Specialization — Andrew Ng (2023, in progress)

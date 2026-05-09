@@ -1,0 +1,46 @@
+VIKRAM SINGH
+Email: vikram.s.ai@gmail.com | Phone: +91-65432-10987
+LinkedIn: linkedin.com/in/vikramsingh-ai-expert
+
+PROFESSIONAL SUMMARY
+Highly skilled AI/ML enthusiast and full-stack developer with comprehensive knowledge of cutting-edge AI technologies including Large Language Models, Generative AI, Deep Learning, Natural Language Processing, Computer Vision, Reinforcement Learning, and Advanced Prompt Engineering. Proficient in a vast array of modern tools and frameworks.
+
+SKILLS
+Python, LangChain, LlamaIndex, AutoGPT, CrewAI, FastAPI, Docker, Kubernetes, AWS, GCP, Azure, TensorFlow, PyTorch, Keras, Scikit-learn, OpenCV, NLTK, SpaCy, HuggingFace, Transformers, GPT-4, Claude, Gemini, Llama, Mistral, Stable Diffusion, DALL-E, Midjourney, Pinecone, ChromaDB, Weaviate, FAISS, Redis, MongoDB, PostgreSQL, Neo4j, Spark, Kafka, Airflow, MLflow, Weights & Biases, React, Next.js, TypeScript, GraphQL, REST APIs, Git, CI/CD, Terraform, Prompt Engineering, RAG, Fine-tuning, LoRA, QLoRA, RLHF, DPO, Constitutional AI, Chain-of-Thought, Tree-of-Thought
+
+WORK EXPERIENCE
+
+Freelance AI Consultant — Self-employed
+July 2023 – Present (1 year 10 months)
+- Consulted on various AI projects for clients across industries
+- Provided guidance on LLM integration and AI strategy
+- Helped teams adopt best practices for AI development
+
+Junior Web Developer — TechStart Innovations, Delhi
+January 2022 – June 2023 (1 year 6 months)
+- Developed React frontends for client websites
+- Built basic REST APIs using Node.js
+- Managed deployments on shared hosting
+
+EDUCATION
+B.Tech in Computer Science — Amity University, Noida, 2021
+GPA: 6.8/10
+
+PROJECTS
+1. AI Chatbot Framework
+   Built a chatbot framework leveraging multiple LLMs.
+   Technologies: Python, LangChain
+
+2. Smart Document Processor
+   An AI-powered document processing system.
+   Technologies: Python, Various AI tools
+
+3. Intelligent Data Analyzer
+   Advanced data analysis tool using machine learning.
+   Technologies: Python, ML frameworks
+
+CERTIFICATIONS
+- Coursera Deep Learning Specialization (2023)
+- Udemy Complete AI and ML Bootcamp (2023)
+- LinkedIn Learning AI Foundations (2023)
+- Various other AI/ML online certifications
