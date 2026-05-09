@@ -53,7 +53,7 @@ HR teams screen hundreds of resumes per role — leading to fatigue, inconsisten
 
 ***added TCI JD and my own Resume for verification***
 
-<img width="336" height="975" alt="Screenshot 2026-05-09 225759" src="assets/fileUp.png" />
+<img width="336" height="975" alt="Screenshot 2026-05-09 225759" src="assets/fileUP.png" />
 
 
 **Results Dashboard — Ranked Candidates with HITL Override**
