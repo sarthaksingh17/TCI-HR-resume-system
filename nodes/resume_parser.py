@@ -120,10 +120,3 @@ def parse_resumes_node(state: GraphState) -> dict:
 
     print(f"[Resume Parser] Successfully parsed {len(profiles)}/{len(items)} resume(s)")
     return {"resume_profiles": profiles, "parse_failures": parse_failures}
-    parse_failures = [fn for fn, _ in items if fn not in parsed_filenames]
-
-    if parse_failures:
-        print(f"[Resume Parser] WARNING: {len(parse_failures)} resume(s) could not be parsed: {parse_failures}")
-
-    print(f"[Resume Parser] Successfully parsed {len(profiles)}/{len(items)} resume(s)")
-    return {"resume_profiles": profiles, "parse_failures": parse_failures}
