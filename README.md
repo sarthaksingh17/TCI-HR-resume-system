@@ -8,6 +8,10 @@
 
 An AI-powered candidate evaluation pipeline built with **LangGraph**. Upload a Job Description and a batch of resumes — get a ranked, scored shortlist with bias audit in seconds.
 
+
+ # #
+ 
+LIVE TUTORIAL-https://drive.google.com/file/d/1C37gkVc8gwJrTzJvsCiRacYWeabwYiH2/view?usp=sharing
 ---
 
 ## Table of Contents
