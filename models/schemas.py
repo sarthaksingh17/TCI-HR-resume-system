@@ -3,6 +3,7 @@ Pydantic models and LangGraph state definition for the HR Resume Shortlisting Ag
 """
 
 from __future__ import annotations
+from typing import Union
 
 from enum import Enum
 from typing import Optional, TypedDict
@@ -43,7 +44,7 @@ class ParsedJD(BaseModel):
     title: str = Field(description="Job title")
     required_skills: list[str] = Field(description="List of required skills/technologies")
     preferred_skills: list[str] = Field(default_factory=list, description="List of preferred/nice-to-have skills")
-    min_experience_years: int = Field(default=0, description="Minimum years of experience required")
+    min_experience_years: Optional[Union[int, str]] = 0
     education_requirements: list[str] = Field(default_factory=list, description="Education requirements")
     responsibilities: list[str] = Field(default_factory=list, description="Key responsibilities")
     raw_text: str = Field(default="", description="Original JD text")
