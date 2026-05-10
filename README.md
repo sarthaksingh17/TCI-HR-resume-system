@@ -198,7 +198,7 @@ Any flagged candidates appear in the **Bias Audit Summary** section of the HTML 
 ### Installation
 
 ```bash
-git clone https://github.com/yourusername/hr-resume-shortlisting.git
+git clone https://github.com/sarthaksingh17/TCI-HR-resume-system.git
 cd hr-resume-shortlisting
 pip install -r requirements.txt
 cp .env.example .env
