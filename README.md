@@ -92,6 +92,8 @@ HR teams screen hundreds of resumes per role — leading to fatigue, inconsisten
                          |
                          ▼
               [4] Scoring Node
+                   └── Generate candidate embedding (sentence-transformers)
+                   └── Cosine similarity with JD embedding
                    └── LLM scores 5 dimensions with 0/5/10 rubric anchors
                    └── Pydantic validates every output
                          |
@@ -120,7 +122,7 @@ HR teams screen hundreds of resumes per role — leading to fatigue, inconsisten
 | 2A | **Resume Parser** | Reads PDF / DOCX / TXT, LLM converts to structured `CandidateProfile`. Runs async in parallel |
 | 2B | **LinkedIn Parser** | Loads exported LinkedIn JSON, LLM structures into `CandidateProfile`. Runs async in parallel |
 | 3 | **Profile Merge** | Combines resume and LinkedIn data for the same candidate. Resume wins on all conflicts |
-| 4 | **Scoring** | LLM scores each candidate on 5 dimensions using full rubric anchors. Pydantic validates every output |
+| 4 | **Scoring** | Generates candidate embedding, computes cosine similarity with JD, then LLM scores 5 dimensions (0-10) using rubric anchors. Pydantic validates every output |
 | 5 | **Rank** | Sorts by weighted total, assigns tier (Strong / Borderline / Weak), runs 3 bias checks |
 | 6 | **Report** | Jinja2 renders professional HTML report. Also exports JSON for API consumers |
 | 7 | **HITL Override** | HR inputs candidate ID, dimension, new score, and reason. Logged to SQLite with timestamp |
